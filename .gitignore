@@ -1,0 +1,14 @@
+# Ignore all .log files
+*.log
+
+# Ignore the node_modules directory
+genieai-flow/
+
+# Ignore environment files
+.env
+
+# Ignore compiled Python files
+__pycache__/
+*.pyc
+
+config.py

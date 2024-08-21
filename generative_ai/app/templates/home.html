@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Generative AI Agents</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    
+    <main>
+        <div class="container mt-4">
+            <h1 class="text-center mb-4">Welcome to Generative AI Usecases</h1>
+            <p class="text-center text-muted">Take a Journey Through the Features Below</p>
+
+            <div class="row justify-content-center">
+                <!-- SmartPrompt Card -->
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card shadow-sm">
+                        <img src="{{ url_for('static', filename='images/smartpromptimg.png') }}" class="card-img-top" alt="SmartPrompt Image">
+                        <div class="card-body">
+                            <h5 class="card-title">SmartPrompt</h5>
+                            <p class="card-text">Interact with advanced large language models.</p>
+                            <a href="{{ url_for('smart_prompt.index') }}" class="btn btn-primary">Go to SmartPrompt</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AnomalyGuard Card -->
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card shadow-sm">
+                        <img src="{{ url_for('static', filename='images/anomalyguardimg.png') }}" class="card-img-top" alt="AnomalyGuard Image">
+                        <div class="card-body">
+                            <h5 class="card-title">AnomalyGuard</h5>
+                            <p class="card-text">Detect and manage anomalies in your data efficiently.</p>
+                            <a href="{{ url_for('anomaly_guard.index') }}" class="btn btn-primary">Go to AnomalyGuard</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GenRetrieve Card -->
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card shadow-sm">
+                        <img src="{{ url_for('static', filename='images/genretrieveimg.png') }}" class="card-img-top" alt="GenRetrieve Image">
+                        <div class="card-body">
+                            <h5 class="card-title">GenRetrieve</h5>
+                            <p class="card-text">Leverage augmented content generation for enhanced outputs.</p>
+                            <a href="{{ url_for('gen_retrieve.index') }}" class="btn btn-primary">Go to GenRetrieve</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LocalTrainer Card -->
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card shadow-sm">
+                        <img src="{{ url_for('static', filename='images/localtrainerimg.png') }}" class="card-img-top" alt="LocalTrainer Image">
+                        <div class="card-body">
+                            <h5 class="card-title">LocalTrainer</h5>
+                            <p class="card-text">Train models locally on your machine with efficiency.</p>
+                            <a href="{{ url_for('local_trainer.index') }}" class="btn btn-primary">Go to Local Trainer</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer bg-dark text-white text-center py-3">
+        <p>&copy; 2024. All rights reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

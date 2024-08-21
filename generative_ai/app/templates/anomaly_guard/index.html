@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anomalies Detection</title>
+    
+    <!-- Bootstrap CSS for layout and components -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='/css/anomaly_guard.css') }}" rel="stylesheet">
+
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f7f8fa; /* Subtle off-white background */
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background-color: #2c3e50; /* Deep blue for the navbar */
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.75rem;
+            color: #ecf0f1; /* Light text color */
+            letter-spacing: 1px;
+        }
+
+        .navbar-nav .nav-link {
+            color: #ecf0f1;
+            font-size: 1rem;
+            margin-left: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #1abc9c; /* Bright teal on hover */
+        }
+
+        /* Container and Content Styles */
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .alert {
+            border-radius: 6px;
+            padding: 20px;
+            font-size: 1.1rem;
+            background-color: #ecf0f1;
+            color: #333;
+            border: none;
+        }
+
+        .alert h2, .alert h3 {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .btn-primary {
+            background-color: #1abc9c;
+            border-color: #16a085;
+            color: #fff;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 30px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #16a085;
+            border-color: #148f77;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .form-control {
+            border-radius: 4px;
+            font-size: 1rem;
+            padding: 10px;
+            border: 1px solid #ced4da;
+        }
+
+        .form-control:focus {
+            border-color: #1abc9c;
+            box-shadow: 0 0 5px rgba(26, 188, 156, 0.5);
+        }
+
+        .section-heading {
+            font-size: 1.5rem;
+            color: #34495e;
+            margin-bottom: 20px;
+        }
+
+        .summary-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #7f8c8d;
+        }
+
+        table {
+            margin-top: 20px;
+            background-color: #ffffff;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        thead th {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid #d5d8dc;
+            font-weight: 600;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #d5d8dc;
+            transition: background-color 0.3s;
+        }
+
+        tbody tr:hover {
+            background-color: #f0f3f4;
+        }
+
+        tbody td {
+            padding: 12px;
+            color: #2c3e50;
+        }
+
+        #anomalyChart {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #d5d8dc;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">Anomalies Detection</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('main.home') }}">Home</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container mt-5">
+        <div class="alert" role="alert">
+            <h2><strong>Anomalies Insights Dashboard</strong></h2>
+        </div>
+
+        <div class="form-group row mt-4">
+            <div class="col-md-4">
+                <label for="table-select">Select Table:</label>
+                <select class="form-control" id="table-select">
+                    <option value="" disabled selected>Select Table</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="feature-select">Select Feature:</label>
+                <select class="form-control" id="feature-select" disabled>
+                    <option value="" disabled selected>Select Feature</option>
+                </select>
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+                <button class="btn btn-primary btn-oval" id="fetch-data" disabled>Fetch Data</button>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-md-6">
+                <div id="summary-container" class="alert">
+                    <h3 class="section-heading">Summary</h3>
+                    <p id="summary-text" class="summary-text"></p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div id="chart-container" class="alert">
+                    <h3 class="section-heading">Chart</h3>
+                    <canvas id="anomalyChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <div id="details-container" class="alert">
+                    <h3 class="section-heading">Detail Insights</h3>
+                    <table class="table table-hover">
+                        <thead id="details-head">
+                            <tr>
+                                <th>The following data contains details of the detected anomalies</th>
+                            </tr>
+                        </thead>
+                        <tbody id="details-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/anomaly_guard.js') }}"></script>
+</body>
+</html>

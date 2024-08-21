@@ -1,0 +1,71 @@
+
+.resized-image {
+    width: auto; /* Set desired width */
+    height: 200px; /* Maintain aspect ratio */
+}
+
+.resized-animation {
+    width:  50px; /* Set desired width */
+    height: 50px; /* Maintain aspect ratio */
+    display: block;
+    margin: 0 auto; /* This will center the image horizontally */
+}
+
+.btn-submit {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+  }
+
+.btn-submit:hover {
+    background-color: #0056b3;
+  }
+
+.custom-textarea {
+    width: 100%; /* Adjust the width as needed */
+    height: 200px; /* Adjust the height as needed */
+}
+
+ /* Targeting all headers (h1, h2, h3, etc.) */
+h1, h2, h3, h4, h5, h6 {
+  font-family: Courier, monospace;
+  
+  /* Adjust font size */
+  font-size: 1.5em; /* Example font size */
+  
+  /* Add some letter spacing for clarity */
+  letter-spacing: 1px; /* Example letter spacing */
+  
+  font-weight: bold; 
+  
+  /* Add some text shadow for depth */
+  text-shadow: 1px 1px 2px rgba(93, 2, 2, 0.2); /* Example text shadow */
+  
+  /* Choose text color */
+  color: #d8dfe3; /* Example text color */
+  
+  /* Add transition for smooth effect */
+  transition: all 0.3s ease; /* Example transition */
+}
+
+/* Style hover effect */
+h1:hover, h2:hover, h3:hover, h4:hover, h5:hover, h6:hover {
+  /* Change color on hover */
+  color: #d9b698; /* Example hover color */
+}
+
+
+/* Add border-bottom to create an underline effect */
+h1, h2, h3, h4, h5, h6 {
+  border-bottom: 2px solid #2f86e4; /* Example border-bottom */
+  padding-bottom: 5px; /* Example padding-bottom */
+}
+
+/* Center align headers for better readability */
+h1, h2, h3, h4, h5, h6 {
+  text-align: center; /* Example text-align */
+}
